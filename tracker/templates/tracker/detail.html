@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col d-flex justify-content-center">
+			<div class="col-md-6 text-center mt-5 border border-success py-3 rounded">
+				<h4 class="text-decoration-underline">Task detail: </h4>
+				<p>{{obj.description}}</p>
+				<small><a href="{% url 'tracker:home' %}" class="text-start">Go back</a></small>
+				<small><a href="{% url 'tracker:update' obj.id %}" class="btn btn-primary">Edit</a></small>
+				<small><a href="{% url 'tracker:delete' obj.id %}" class="btn btn-danger">Delete</a></small>
+			</div>
+		</div>
+	</div>	
+</div>
+
+{% endblock %}

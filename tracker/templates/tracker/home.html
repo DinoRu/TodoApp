@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+	<div class="wrapper mt-4">
+		<div class="header-bar">
+			<div>
+				<h1>Hi {{ request.user }}</h1>
+				
+				<h3 class="fst-italic">You have {{ count }} Incomplete task{{ count|pluralize:"s" }}</h3>
+
+			</div>
+		</div>
+		{% if request.user.is_authenticated %}
+			<div class="d-flex justify-content-around">
+				<p class="text-end"><a href="{% url 'tracker:logout' %}" class="">Logout</a></p>
+			</div>
+		{% else %}
+			<a href="{% url 'tracker:login' %}" class="">Login</a>
+		{% endif %}
+		<hr>
+		<h1 class="text-center text-decoration-underline">My To Do List</h1>
+		<form method="GET" class="mt-3">
+			<input type="text" placeholder="Search taks" name="search-area" value="{{ search_input }}">
+			<input type="submit" value="Search">
+		</form>
+
+		<h6 class="text-center mt-3"><a href="{% url 'tracker:create' %}">Create Task</a></h6>
+		<div class="row">
+			{% for obj in objects %}
+				<div class="col-12 d-flex justify-content-center gy-2">
+					<div class="col-md-8 col-lg-8 border border-info rounded text-center py-4 mt-3">
+						{% if obj.closed %}
+							<h4><i><s>Title: {{obj.name}}</s><i></h4>
+							<p>Date: {{ obj.due_date }}</p>
+							<p class="text-success text-center">complete</p>
+						{% else %}
+							<h4>Title: {{obj.name}}</h4>
+							<p>Date: {{ obj.due_date }}</p>
+							<small><a href="{% url 'tracker:detail' obj.id %}" class="btn btn-primary">view</a></small>
+							<small><a href="{% url 'tracker:update' obj.id %}" class="btn btn-secondary">Edit</a></small>
+							<small><a href="{% url 'tracker:delete' obj.id %}" class="btn btn-danger">Delete</a></small>
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}
